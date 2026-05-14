@@ -20,7 +20,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const { user, ready } = useAuth();
   const { t } = useTranslation();
-  const isLogin = pathname === "/login";
+  // trailingSlash: true yields "/login/" — must match both for static export / GH Pages
+  const pathNoSlash =
+    pathname.length > 1 && pathname.endsWith("/") ? pathname.slice(0, -1) : pathname;
+  const isLogin = pathNoSlash === "/login";
 
   useEffect(() => {
     if (!ready || isLogin) return;
